@@ -449,6 +449,7 @@ h1 {
   .nav-search-wrap {
     width: 100%;
     margin-left: 0;
+    display: none;
   }
 
   .nav-input {
@@ -553,5 +554,6 @@ h1 {
     font-size: 1rem;
   }
 }
+
 
 
