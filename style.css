@@ -1,0 +1,557 @@
+/* General reset */
+/* make sizing predictable across elements */
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+/* reset and base font */
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+/* ensure images, videos and form controls don't overflow */
+img,
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+input,
+button,
+textarea,
+select {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+  padding: 20px;
+  background: linear-gradient(to bottom, var(--bg1, #042d51), var(--bg2, #034c50));
+  /* default */
+  color: var(--text, #111);
+}
+
+/* Background video */
+.bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  display: none;
+  /* hidden by default, shown if available */
+  filter: brightness(0.7);
+}
+
+/* navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  background: rgba(9, 18, 34, 0.575);
+  backdrop-filter: blur(6px);
+  z-index: 10;
+}
+
+.nav-brand {
+  font-weight: 700;
+  letter-spacing: 0.6px;
+}
+
+/* nav left group (logo + brand) */
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #7588cc;
+}
+
+.nav-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #640404, #ff7a59);
+  color: #2b2b2b;
+  font-weight: 800;
+  z-index: 11;
+  box-shadow: 0 4px 10px rgb(195, 7, 7);
+}
+
+/* navbar search area */
+.nav-search-wrap {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.nav-input {
+  min-width: 220px;
+  max-width: 420px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  outline: none;
+  font-size: 0.95rem;
+}
+
+.nav-input:focus {
+  box-shadow: 0 6px 18px rgba(50, 100, 200, 0.08);
+}
+
+.nav-search-btn {
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  background: #640404;
+  color: #ffffff;
+}
+
+.nav-search-btn:hover {
+  filter: brightness(0.98);
+  transform: translateY(-1px);
+}
+
+.nav-brand .brand-main {
+  font-weight: 800;
+  font-size: 1.05rem;
+}
+
+.nav-brand .brand-accent {
+  color: #ff7a59;
+  margin-left: 4px;
+  font-weight: 700;
+}
+
+/* main content wrapper to center below navbar */
+.main {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 90px 20px 120px;
+  /* leave space for navbar and fixed footer */
+}
+
+/* ensure the main app floats above the video */
+.app,
+.weather-box,
+.card-stack {
+  position: relative;
+  z-index: 2;
+}
+
+/* card stack layout used by the new small-cards UI */
+.card-stack {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 18px;
+  align-items: stretch;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.small-card {
+  background: var(--card-surface, rgba(255, 255, 255, 0.75));
+  border-radius: 12px;
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(7, 22, 37, 0.06);
+  min-height: 84px;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+  text-align: center;
+}
+
+.small-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(7, 22, 37, 0.12);
+}
+
+.small-title {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.small-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* city icon and text inside city card */
+#cardCityIcon {
+  width: 40px;
+  height: 40px;
+  color: var(--muted);
+  display: block;
+}
+
+#cardCityText {
+  display: none;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+#cardCity.show-text #cardCityIcon {
+  display: none;
+}
+
+#cardCity.show-text #cardCityText {
+  display: block;
+}
+
+/* stat icons and accessible-only text */
+.stat-icon {
+  width: 28px;
+  height: 28px;
+  color: var(--muted);
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.search-card .card-search-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  align-items: center;
+}
+
+.search-card input {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.search-card button {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: none;
+  background: #8b0505;
+  color: rgb(255, 255, 255);
+  font-weight: 700;
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+/* condition card */
+.cond-card .cond-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.cond-card img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  display: none;
+}
+
+.cond-card .small-value {
+  font-size: 0.95rem;
+}
+
+/* footer */
+.footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--footer-text, #f5f5f5);
+  padding: 10px 12px;
+  background: var(--footer-bg, rgba(0, 0, 0, 0.04));
+  backdrop-filter: blur(6px);
+  z-index: 9;
+}
+
+.footer-content {
+  font-size: 0.95rem;
+}
+
+.footer-small {
+  font-size: 0.8rem;
+  margin-top: 6px;
+}
+
+.footer a {
+  color: var(--text);
+  text-decoration: underline;
+  opacity: 0.9;
+}
+
+.footer a:hover {
+  opacity: 1;
+}
+
+/* App container */
+.app {
+  background: var(--card-bg, #ffffffcc);
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  max-width: 450px;
+  width: 100%;
+  text-align: center;
+  z-index: 1;
+  position: relative;
+}
+
+/* make sure content sits above the video */
+body>.bg-video {
+  z-index: 0;
+}
+
+body>*:not(.bg-video) {
+  z-index: 2;
+}
+
+/* header and theme toggle */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.theme-toggle {
+  background: transparent;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+/* Search box */
+.search-box {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #840ae2;
+  font-size: 1rem;
+}
+
+.search-box button {
+  padding: 10px 15px;
+  border: none;
+  background: #fe4f4f;
+  color: rgb(255, 92, 92);
+  font-size: 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.search-box button:hover {
+  background: #6200ff;
+}
+
+/* Weather result */
+.weather-box {
+  margin-top: 15px;
+  font-size: 1.1rem;
+  background: transparent;
+  padding: 0;
+  border-radius: 15px;
+}
+
+/* make sure the fixed navbar doesn't overlap the card-stack */
+.weather-box {
+  margin-top: 90px;
+}
+
+/* keep navbar search visually above content */
+.nav-search-wrap {
+  z-index: 20;
+}
+
+/* Media Queries for Phones */
+@media screen and (max-width: 768px) {
+  .navbar {
+    height: auto;
+    padding: 10px 15px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav-left {
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .nav-brand {
+    font-size: 1.2rem;
+  }
+
+  .nav-search-wrap {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .nav-input {
+    min-width: auto;
+    flex: 1;
+  }
+
+  .card-stack {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .small-card {
+    min-height: 70px;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .navbar {
+    padding: 8px 10px;
+  }
+
+  .nav-logo {
+    width: 30px;
+    height: 30px;
+  }
+
+  .nav-brand {
+    font-size: 1rem;
+  }
+
+  .nav-input {
+    padding: 6px 8px;
+    font-size: 0.9rem;
+  }
+
+  .nav-search-btn {
+    padding: 6px 10px;
+    font-size: 0.9rem;
+  }
+
+  .small-card {
+    padding: 10px 8px;
+    min-height: 60px;
+  }
+
+  .small-value {
+    font-size: 1.1rem;
+  }
+
+  .footer {
+    padding: 8px 10px;
+  }
+
+  .footer-content {
+    font-size: 0.85rem;
+  }
+
+  .footer-small {
+    font-size: 0.75rem;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .nav-left {
+    gap: 5px;
+  }
+
+  .nav-brand .brand-main {
+    font-size: 0.9rem;
+  }
+
+  .nav-brand .brand-accent {
+    font-size: 0.9rem;
+  }
+
+  .nav-input {
+    padding: 5px 7px;
+    font-size: 0.85rem;
+  }
+
+  .nav-search-btn {
+    padding: 5px 8px;
+    font-size: 0.85rem;
+  }
+
+  .small-card {
+    padding: 8px 6px;
+    min-height: 50px;
+  }
+
+  .small-title {
+    font-size: 0.75rem;
+  }
+
+  .small-value {
+    font-size: 1rem;
+  }
+}
+
+

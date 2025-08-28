@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aero Plus</title>
+    <link rel="icon" type="image/png" href="fevicon/storm.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <video id="bgVideo" class="bg-video" autoplay muted loop playsinline></video>
+
+    <!-- top navigation -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <img src="Img/Logo.png" alt="Logo" class="nav-logo" /> <!-- Updated logo -->
+            <div class="nav-brand" aria-label="AeroPlus">
+                <span class="brand-main">Aero</span><span class="brand-accent">Plus</span>
+            </div>
+        </div>
+        <div class="nav-search-wrap">
+            <input id="navCityInput" type="text" class="nav-input" placeholder="Search city...">
+            <button id="navSearchBtn" class="nav-search-btn">Search</button>
+        </div>
+    </nav>
+
+    <!-- weather/result area: card-stack is defined below -->
+    <div id="weatherResult" class="weather-box">
+        <div class="card-stack">
+            <div class="small-card search-card">
+                <div class="card-search-row">
+                    <input id="cardSearchInput" type="text" placeholder="Type city...">
+                    <button id="cardSearchBtn" type="button">Go</button>
+                </div>
+            </div>
+
+            <div class="small-card city-card">
+                <div id="cardCity" class="small-value">
+                    <svg id="cardCityIcon" width="40" height="40" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path fill="currentColor" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
+                    </svg>
+                    <span id="cardCityText" class="small-value">—</span>
+                </div>
+            </div>
+
+            <div class="small-card cond-card" id="condCard">
+                <div class="cond-content">
+                    <svg id="cardCondLogo" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path fill="currentColor" d="M6.76 4.84l-1.8-1.79L3.17 4.84 4.98 6.63 6.76 4.84zM1 13h3v-2H1v2zm10-9h2V1h-2v3zm7.24 1.05l1.79-1.79-1.79-1.79-1.79 1.79 1.79 1.79zM20 11v2h3v-2h-3zM12 7a5 5 0 100 10 5 5 0 000-10zM4.22 19.78l1.79-1.79-1.79-1.79-1.79 1.79 1.79 1.79zM17.24 18.36l1.79 1.79 1.79-1.79-1.79-1.79-1.79 1.79z"/>
+                    </svg>
+                    <img id="cardCondIcon" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="condition" />
+                    <div id="cardCondText" class="small-value sr-only">—</div>
+                    <div id="weatherConditionText" class="small-title">Weather Condition</div> <!-- Added weather condition text -->
+                </div>
+            </div>
+
+            <div class="small-card temp-card">
+                <div class="small-title" aria-hidden="true">
+                    <svg class="stat-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                        <path fill="currentColor" d="M14 14.5V5a2 2 0 10-4 0v9.5a4 4 0 104 0z"/>
+                    </svg>
+                    <span class="sr-only">Temperature</span>
+                </div>
+                <div id="cardTemp" class="small-value">--°C</div>
+                <div class="small-title">Temperature</div>
+            </div>
+
+            <div class="small-card wind-card">
+                <div class="small-title" aria-hidden="true">
+                    <svg class="stat-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                        <path fill="currentColor" d="M3 12a4 4 0 014-4h10a3 3 0 110 6H7a2 2 0 100 4h10"/>
+                    </svg>
+                    <span class="sr-only">Wind</span>
+                </div>
+                <div id="statWind" class="small-value">— kph</div>
+                <div class="small-title">Wind</div>
+            </div>
+
+            <div class="small-card hum-card">
+                <div class="small-title" aria-hidden="true">
+                    <svg class="stat-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                        <path fill="currentColor" d="M12 2s-5 5.5-5 8.5a5 5 0 0010 0C17 7.5 12 2 12 2z"/>
+                    </svg>
+                    <span class="sr-only">Humidity</span>
+                </div>
+                <div id="statHum" class="small-value">—%</div>
+                <div class="small-title">Humidity</div>
+            </div>
+        </div>
+    </div>
+    <!-- footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div style="display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;">
+                <strong>AeroPlus</strong>
+                <span>© <span id="year"></span></span>
+                <nav style="display:inline-flex;gap:10px;margin-left:8px;">
+                    <a href="#" aria-label="Source">GitHub</a>
+                </nav>
+            </div>
+            <div class="footer-small">Data provided by <a href="https://www.weatherapi.com/" target="_blank"
+                    rel="noopener noreferrer">WeatherAPI.com</a></div>
+        </div>
+    </footer>
+
+    <script src="script.js" defer></script>
+
+</body>
+</html>
